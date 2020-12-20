@@ -1,0 +1,127 @@
+<div class="details-container">
+  <form [formGroup]="buyForm">
+    <div>
+      <h4>Buy Date</h4>
+      <mat-form-field appearance="fill">
+        <mat-label>Choose a date</mat-label>
+        <input matInput [min]="minDate" [max]="todaysDate" [matDatepicker]="buyDatePicker" formControlName="buyDate">
+        <mat-datepicker-toggle matSuffix [for]="buyDatePicker"></mat-datepicker-toggle>
+        <mat-datepicker #buyDatePicker></mat-datepicker>
+      </mat-form-field>
+    </div>
+    <div class="buy-container">
+      <div>
+        <h4>Buy Currency</h4>
+        <mat-form-field>
+          <input type="text" matInput placeholder="Select currency" formControlName="buyCurrency" [matAutocomplete]="autoBuyCurrency">
+        </mat-form-field>
+        <mat-autocomplete #autoBuyCurrency="matAutocomplete">
+          <mat-option *ngFor="let currency of filteredBuyCurrency | async" [value]="currency">
+            {{ currency }}
+          </mat-option>
+        </mat-autocomplete>
+      </div>
+      <div>
+        <h4>Rate in {{ buyCurrency }}</h4>
+        <mat-form-field>
+          <input matInput placeholder="Enter buy exchange rate" formControlName="buyRate">
+        </mat-form-field>
+      </div>
+      <div>
+        <h4>Buy price in {{ buyCurrency }}</h4>
+        <mat-form-field>
+          <input matInput placeholder="Enter buy price in {{ buyCurrency }}" formControlName="buyPrice">
+        </mat-form-field>
+      </div>
+      <div>
+        <h4>Exchange Currency</h4>
+        <mat-form-field>
+          <input type="text" matInput placeholder="Select currency" formControlName="buyCurrencyExchanged" [matAutocomplete]="autoBuyCurrencyExchanged">
+        </mat-form-field>
+        <mat-autocomplete #autoBuyCurrencyExchanged="matAutocomplete">
+          <mat-option *ngFor="let currency of filteredBuyCurrencyExchanged | async" [value]="currency">
+            {{ currency }}
+          </mat-option>
+        </mat-autocomplete>
+      </div>
+      <div>
+        <h4>Rate in {{ buyCurrencyExchanged }}</h4>
+        <mat-form-field>
+          <input matInput placeholder="Enter buy exchange rate" formControlName="buyRateExchanged">
+        </mat-form-field>
+      </div>
+      <div>
+        <h4>Buy price in {{ buyCurrencyExchanged }}</h4>
+        <div *ngIf="buyPriceExchanged">{{ buyPriceExchanged | currency: buyCurrencyExchanged }}</div>
+      </div>
+    </div>
+  </form>
+  <form [formGroup]="sellForm">
+    <div>
+      <h4>Sell Date</h4>
+      <mat-form-field appearance="fill">
+        <mat-label>Choose a date</mat-label>
+        <input matInput [min]="minDate" [max]="todaysDate" [matDatepicker]="sellDatePicker" formControlName="sellDate">
+        <mat-datepicker-toggle matSuffix [for]="sellDatePicker"></mat-datepicker-toggle>
+        <mat-datepicker #sellDatePicker></mat-datepicker>
+      </mat-form-field>
+    </div>
+    <div class="sell-container">
+      <div>
+        <h4>Currencies</h4>
+        <mat-form-field>
+          <input type="text" matInput placeholder="Select currency" formControlName="sellCurrency" [matAutocomplete]="autoSellCurrency">
+        </mat-form-field>
+        <mat-autocomplete #autoSellCurrency="matAutocomplete">
+          <mat-option *ngFor="let currency of filteredSellCurrency | async" [value]="currency">
+            {{ currency }}
+          </mat-option>
+        </mat-autocomplete>
+      </div>
+      <div>
+        <h4>Rate in {{ sellCurrency }}</h4>
+        <mat-form-field>
+          <input matInput placeholder="Enter sell exchange rate" formControlName="sellRate">
+        </mat-form-field>
+      </div>
+      <div>
+        <h4>Sell price in {{ sellCurrency }}</h4>
+        <mat-form-field>
+          <input matInput placeholder="Enter sell price in {{ sellCurrency }}" formControlName="sellPrice">
+        </mat-form-field>
+      </div>
+      <div>
+        <h4>Exchange Currency</h4>
+        <mat-form-field>
+          <input type="text" matInput placeholder="Select currency" formControlName="sellCurrencyExchanged" [matAutocomplete]="autoSellCurrencyExchanged">
+        </mat-form-field>
+        <mat-autocomplete #autoSellCurrencyExchanged="matAutocomplete">
+          <mat-option *ngFor="let currency of filteredSellCurrencyExchanged | async" [value]="currency">
+            {{ currency }}
+          </mat-option>
+        </mat-autocomplete>
+      </div>
+      <div>
+        <h4>Rate in {{ sellCurrencyExchanged }}</h4>
+        <mat-form-field>
+          <input matInput placeholder="Enter buy exchange rate" formControlName="sellRateExchanged">
+        </mat-form-field>
+      </div>
+      <div>
+        <h4>Sell price in {{ sellCurrencyExchanged }}</h4>
+        <div *ngIf="sellPriceExchanged" [ngClass]="{
+          'positive': sellPriceExchanged < buyPriceExchanged,
+          'negative': sellPriceExchanged > buyPriceExchanged
+        }">{{ sellPriceExchanged | currency: sellCurrencyExchanged }}</div>
+      </div>
+    </div>
+  </form>
+  <br>
+  <h1>
+    Difference of
+    <span [ngClass]="{
+      'positive-result ': sellPriceExchanged < buyPriceExchanged,
+      'negative-result ': sellPriceExchanged > buyPriceExchanged
+    }">{{ (sellPriceExchanged - buyPriceExchanged) | currency: sellCurrencyExchanged }}</span>
+  </h1>
+</div>
