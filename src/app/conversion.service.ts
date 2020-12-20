@@ -1,4 +1,5 @@
 import { Injectable } from '@angular/core';
+import { HISTORIC_RATES } from './models/history';
 
 @Injectable({
   providedIn: 'root'
@@ -42,14 +43,13 @@ export class ConversionService {
   async getCurrencyHistory(currency: string, exchangeCurrency: string) {
     const url = `https://api.exchangeratesapi.io/history?start_at=1999-01-01&end_at=2020-09-01&base=${currency}`;
     try {
-      const response = await fetch(url);
-      const data = await response.json();
-      const keys = Object.keys(data.rates).sort((a, b) => a < b ? -1 : 1);
-      const history = keys.map((key: string) => ({
-        date: key,
-        value: data.rates[key][exchangeCurrency],
-      }));
-      return history;
+      // const response = await fetch(url);
+      // const data = await response.json();
+      // const keys = Object.keys(data.rates).sort((a, b) => a < b ? -1 : 1);
+      // const values = keys.map((key: string) => data.rates[key][exchangeCurrency]);
+      const keys = HISTORIC_RATES.map((value) => value.date);
+      const values = HISTORIC_RATES.map((value) => value.value);
+      return { keys, values };
     } catch (error) {
       console.log(error);
       return undefined;

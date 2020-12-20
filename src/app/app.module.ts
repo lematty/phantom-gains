@@ -10,13 +10,15 @@ import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatNativeDateModule } from '@angular/material/core';
 import { ChartComponent } from './chart/chart.component';
+import { ContainerComponent } from './container/container.component';
 
 
 @NgModule({
   declarations: [
     AppComponent,
     ConversionDetailsComponent,
-    ChartComponent
+    ChartComponent,
+    ContainerComponent
   ],
   imports: [
     BrowserModule,

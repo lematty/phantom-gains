@@ -9,7 +9,7 @@ import { BuyInfo, ValueTypes } from '../models';
 type RateType = 'buy' | 'sell';
 
 @Component({
-  selector: 'conversion-details',
+  selector: 'phantom-conversion-details',
   templateUrl: './conversion-details.component.html',
   styleUrls: ['./conversion-details.component.less']
 })
@@ -47,8 +47,6 @@ export class ConversionDetailsComponent implements OnInit {
       sellCurrencyExchanged: new FormControl('USD', [Validators.required]),
       sellRateExchanged: new FormControl('', this.rateControlValidators),
     });
-    const test = await this.conversionService.getCurrencyHistory(this.buyCurrency, this.buyCurrencyExchanged);
-    console.log('test: ', test);
     this.buyForm.valueChanges.subscribe((value) => {
       console.log('buyForm => value', value);
       console.log('buyForm: ', this.buyForm);
